@@ -9,9 +9,13 @@ type FormInput = {
 const TrendForm = (): JSX.Element => {
   const { register, handleSubmit } = useForm<FormInput>()
 
-  const onSubmit: SubmitHandler<FormInput> = (data): void => {
-    alert('Submit!')
-    console.log(data)
+  const onSubmit: SubmitHandler<FormInput> = async (data): Promise<void> => {
+    const queryParams = new URLSearchParams(data)
+    console.log(queryParams)
+
+    const result = await fetch('/api/search' + '?' + queryParams)
+    const json = await result.json()
+    console.log(json)
   }
 
   return (
