@@ -11,8 +11,6 @@ const TrendForm = (): JSX.Element => {
 
   const onSubmit: SubmitHandler<FormInput> = async (data): Promise<void> => {
     const queryParams = new URLSearchParams(data)
-    console.log(queryParams)
-
     const result = await fetch('/api/search' + '?' + queryParams)
     const json = await result.json()
     console.log(json)
