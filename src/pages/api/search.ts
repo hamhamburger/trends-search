@@ -3,7 +3,7 @@ import googleTrends from 'google-trends-api'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
-  name: string
+  message: string
 }
 
 const searchThisWeekInterestByRegion = async (keyword: string): Promise<any> => {
@@ -29,7 +29,7 @@ export default async function handler(
     res.status(200).json(result)
   } else {
     res.status(404).json({
-      name: '',
+      message: 'Could not find',
     })
   }
 }
