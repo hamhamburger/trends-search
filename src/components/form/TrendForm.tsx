@@ -2,13 +2,15 @@ import { Button, Container, Stack, TextField } from '@mui/material'
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
+import { useDispatch } from '@/components/state/useDispatch'
+import { mock } from '@/mock'
 type FormInput = {
   keyword: string
 }
 
 const TrendForm = (): JSX.Element => {
   const { register, handleSubmit } = useForm<FormInput>()
-
+  const dispatch = useDispatch()
   const onSubmit: SubmitHandler<FormInput> = async (data): Promise<void> => {
     // const queryParams = new URLSearchParams(data)
 
@@ -20,6 +22,9 @@ const TrendForm = (): JSX.Element => {
     // const tweetsInfoJson = await tweetsInfoResult.json()
     // console.log(tweetsInfoJson)
 
+    // const tweetsCountResult = await fetch('/api/tweetsCount' + '?' + queryParams)
+    // const parsed = await tweetsCountResult.json()
+    // const tweets: TweetsCount = parsed.tweets
     console.log(mock)
     dispatch({ type: 'SET_TWITTER_COUNT', payload: { tweetsCount: mock } })
   }
