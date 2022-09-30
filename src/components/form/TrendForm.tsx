@@ -10,7 +10,7 @@ const TrendForm = (): JSX.Element => {
   const { register, handleSubmit } = useForm<FormInput>()
 
   const onSubmit: SubmitHandler<FormInput> = async (data): Promise<void> => {
-    const queryParams = new URLSearchParams(data)
+    // const queryParams = new URLSearchParams(data)
 
     // const trendResult = await fetch('/api/search' + '?' + queryParams)
     // const trendJson = await trendResult.json()
@@ -20,9 +20,8 @@ const TrendForm = (): JSX.Element => {
     // const tweetsInfoJson = await tweetsInfoResult.json()
     // console.log(tweetsInfoJson)
 
-    const tweetsCountResult = await fetch('/api/tweetsCount' + '?' + queryParams)
-    const tweetsCountJson = await tweetsCountResult.json()
-    console.log(tweetsCountJson)
+    console.log(mock)
+    dispatch({ type: 'SET_TWITTER_COUNT', payload: { tweetsCount: mock } })
   }
 
   return (
