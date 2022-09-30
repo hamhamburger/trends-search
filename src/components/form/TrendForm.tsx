@@ -11,9 +11,18 @@ const TrendForm = (): JSX.Element => {
 
   const onSubmit: SubmitHandler<FormInput> = async (data): Promise<void> => {
     const queryParams = new URLSearchParams(data)
-    const result = await fetch('/api/search' + '?' + queryParams)
-    const json = await result.json()
-    console.log(json)
+
+    // const trendResult = await fetch('/api/search' + '?' + queryParams)
+    // const trendJson = await trendResult.json()
+    // console.log(trendJson)
+
+    // const tweetsInfoResult = await fetch('/api/tweets' + '?' + queryParams)
+    // const tweetsInfoJson = await tweetsInfoResult.json()
+    // console.log(tweetsInfoJson)
+
+    const tweetsCountResult = await fetch('/api/tweetsCount' + '?' + queryParams)
+    const tweetsCountJson = await tweetsCountResult.json()
+    console.log(tweetsCountJson)
   }
 
   return (
