@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 
-import TrendForm from '@/components/form/TrendForm'
-import TweetsGraph from '@/components/graph/TweetsGraph'
 import MyHead from '@/components/MyHead'
+import TrendForm from '@/components/parts/form/TrendForm'
+import TweetsGraph from '@/components/parts/graph/TweetsGraph'
 const search: NextPage = () => {
   return (
     <div>

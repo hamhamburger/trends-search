@@ -1,4 +1,5 @@
 export const mock = {
+  keyword: 'スプラトゥーン',
   data: [
     {
       month: 9,

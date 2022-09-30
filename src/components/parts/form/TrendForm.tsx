@@ -23,10 +23,13 @@ const TrendForm = (): JSX.Element => {
     // console.log(tweetsInfoJson)
 
     // const tweetsCountResult = await fetch('/api/tweetsCount' + '?' + queryParams)
-    // const parsed = await tweetsCountResult.json()
-    // const tweets: TweetsCount = parsed.tweets
+
     console.log(mock)
-    dispatch({ type: 'SET_TWITTER_COUNT', payload: { tweetsCount: mock } })
+    {
+      // const parsed = await tweetsCountResult.json()
+      // const tweets: TweetsCount = parsed.tweets
+      dispatch({ type: 'SET_TWITTER_COUNT', payload: { tweetsCount: mock } })
+    }
   }
 
   return (
