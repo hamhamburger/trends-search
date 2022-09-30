@@ -6,7 +6,7 @@ type Props = {
   description?: string
   faviconUrl?: string
 }
-const SITENAME = 'Trends'
+const SITENAME = 'キーワード分析'
 const SITEFAVICONURL = 'http://localhost'
 const SITEDESCRIPTION = 'hogehoge'
 
