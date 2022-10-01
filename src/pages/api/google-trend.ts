@@ -21,7 +21,7 @@ const searchThisWeekInterestByRegion = async (keyword: string): Promise<any> => 
     const dateTime = dayjs(object.formattedTime)
     const date = dateTime.date()
     const month = dateTime.month() + 1
-    const value = object.value
+    const value = Number(object.value)
 
     return { date, month, value }
   })

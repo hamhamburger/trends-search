@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-import type { AppState, TweetsCount } from '@/libs/types'
+import type { AppState, GoogleInterest, TweetsCount } from '@/libs/types'
 
 export type Actions =
   | {
@@ -8,8 +8,8 @@ export type Actions =
       payload: { tweetsCount: TweetsCount; keyword: string }
     }
   | {
-      type: 'SET_GOOGLE_SEARCH_VOLUME'
-      payload: { tweetsCount: TweetsCount }
+      type: 'SET_GOOGLE_INTEREST'
+      payload: { googleInterest: GoogleInterest; keyword: string }
     }
 
 export const appReducer = (state: AppState, action: Actions): AppState => {
@@ -25,8 +25,19 @@ export const appReducer = (state: AppState, action: Actions): AppState => {
         analyticsDatas: { ...state.analyticsDatas, [action.payload.keyword]: analyticsData },
       }
     }
+    case 'SET_GOOGLE_INTEREST': {
+      const analyticsData = {
+        ...state?.analyticsDatas?.[action.payload.keyword],
+        googleInterest: action.payload.googleInterest,
+      }
+
+      return {
+        ...state,
+        analyticsDatas: { ...state.analyticsDatas, [action.payload.keyword]: analyticsData },
+      }
+    }
     default: {
-      throw new Error(`Unhandled action type: ${action.type}`)
+      throw new Error(`Unhandled action type: ${action}`)
     }
   }
 }

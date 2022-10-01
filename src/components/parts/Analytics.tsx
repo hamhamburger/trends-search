@@ -1,3 +1,6 @@
+import { Grid } from '@mui/material'
+
+import GoogleInterestGraph from './graph/GoogleInterestGraph'
 import TweetsGraph from './graph/TweetsGraph'
 
 import { useAppState } from '@/components/state/useAppState'
@@ -5,6 +8,7 @@ const Analytics = (): JSX.Element => {
   const { analyticsDatas } = useAppState()
   if (Object.keys(analyticsDatas).length < 1) return <></>
   console.log(Object.keys(analyticsDatas))
+  console.log(analyticsDatas)
 
   return (
     <div>
@@ -13,9 +17,19 @@ const Analytics = (): JSX.Element => {
         if (data === undefined) return <></>
 
         return (
-          <div key={keyword}>
-            {data.tweetsCount ? <TweetsGraph tweetsCount={data.tweetsCount} /> : <></>}
-          </div>
+          <Grid container key={keyword}>
+            <Grid item xs={6}>
+              {data.tweetsCount ? <TweetsGraph tweetsCount={data.tweetsCount} /> : <></>}
+            </Grid>
+
+            <Grid item xs={6}>
+              {data.googleInterest ? (
+                <GoogleInterestGraph googleInterest={data.googleInterest} />
+              ) : (
+                <></>
+              )}
+            </Grid>
+          </Grid>
         )
       })}
     </div>

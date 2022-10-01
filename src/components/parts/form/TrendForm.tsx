@@ -1,11 +1,14 @@
-import { Button, Container, Stack, TextField } from '@mui/material'
+import { Box, Button, Checkbox, Container, FormControlLabel, Stack, TextField } from '@mui/material'
 import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
 import { useDispatch } from '@/components/state/useDispatch'
 import type { TweetsCount } from '@/libs/types'
+
 type FormInput = {
   keyword: string
+  requestTweet: boolean
+  requestGoogleInterest: boolean
 }
 
 const TrendForm = (): JSX.Element => {
@@ -28,23 +31,20 @@ const TrendForm = (): JSX.Element => {
     }
   }
 
-  const fetchGoogleTrend = async (queryParams: URLSearchParams): Promise<void> => {
+  const fetchGoogleInterest = async (queryParams: URLSearchParams): Promise<void> => {
     const trendResult = await fetch('/api/google-trend' + '?' + queryParams)
     const trendJson = await trendResult.json()
-    console.log(trendJson)
     if (trendJson.message === 'success') {
-      console.log(trendJson.data)
-
-      // dispatch({
-      //   type: 'SET_TWITTER_COUNT',
-      //   payload: { tweetsCount: tweets, keyword: tweets.keyword },
-      // })
+      dispatch({
+        type: 'SET_GOOGLE_INTEREST',
+        payload: { googleInterest: trendJson, keyword: trendJson.keyword },
+      })
     }
   }
 
   const onSubmit: SubmitHandler<FormInput> = async (data): Promise<void> => {
-    const queryParams = new URLSearchParams(data)
-
+    const queryParams = new URLSearchParams(data.keyword)
+    console.log(data)
     // const trendResult = await fetch('/api/search' + '?' + queryParams)
     // const trendJson = await trendResult.json()
     // console.log(trendJson)
@@ -52,8 +52,13 @@ const TrendForm = (): JSX.Element => {
     // const tweetsInfoResult = await fetch('/api/tweets' + '?' + queryParams)
     // const tweetsInfoJson = await tweetsInfoResult.json()
     // console.log(tweetsInfoJson)
-
-    fetchGoogleTrend(queryParams)
+    if (data.requestTweet) {
+      fetchTweetsCount(queryParams)
+    }
+    if (data.requestGoogleInterest) {
+      fetchGoogleInterest(queryParams)
+    }
+    //
     // fetchTweetsCount(queryParams)
   }
 
@@ -63,6 +68,16 @@ const TrendForm = (): JSX.Element => {
         <form>
           <Stack>
             <TextField label='キーワード' {...register('keyword')} />
+            <Box sx={{ display: 'flex' }}>
+              <FormControlLabel
+                control={<Checkbox defaultChecked {...register('requestTweet')} />}
+                label='ツイート数'
+              />
+              <FormControlLabel
+                control={<Checkbox defaultChecked {...register('requestGoogleInterest')} />}
+                label='Googleトレンド'
+              />
+            </Box>
             <Button onClick={handleSubmit(onSubmit)}>検索</Button>
           </Stack>
         </form>
