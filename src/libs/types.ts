@@ -3,10 +3,12 @@ export type TrendKewordResult = {
 }
 
 export type AppState = {
-  tweetsCount?: TweetsCount
+  analyticsDatas: { [key: string]: AnalyticsData }
 }
 
-type
+type AnalyticsData = {
+  tweetsCount?: TweetsCount
+}
 
 export type TweetsCount = {
   keyword: string

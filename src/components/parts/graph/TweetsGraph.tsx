@@ -9,7 +9,7 @@ import {
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
 
-import { useAppState } from '@/components/state/useAppState'
+import type { TweetsCount } from '@/libs/types'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -25,8 +25,7 @@ export const options = {
     },
   },
 }
-const TweetsGraph = (): JSX.Element => {
-  const { tweetsCount } = useAppState()
+const TweetsGraph = ({ tweetsCount }: { tweetsCount: TweetsCount }): JSX.Element => {
   if (!tweetsCount) return <></>
 
   const labels = tweetsCount?.data.map(obj => `${obj.day}日${obj.hour}時`)

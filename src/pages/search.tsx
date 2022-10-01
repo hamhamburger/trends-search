@@ -1,8 +1,8 @@
 import type { NextPage } from 'next'
 
 import MyHead from '@/components/MyHead'
+import Analytics from '@/components/parts/Analytics'
 import TrendForm from '@/components/parts/form/TrendForm'
-import TweetsGraph from '@/components/parts/graph/TweetsGraph'
 const search: NextPage = () => {
   return (
     <div>
@@ -10,7 +10,7 @@ const search: NextPage = () => {
 
       <main>
         <TrendForm />
-        <TweetsGraph />
+        <Analytics />
       </main>
 
       <footer></footer>
