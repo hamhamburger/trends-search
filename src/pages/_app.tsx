@@ -7,7 +7,7 @@ import { appStateContext } from '@/components/state/useAppState'
 import { dispatchContext } from '@/components/state/useDispatch'
 
 function MyApp({ Component, pageProps }: AppProps): ReactElement {
-  const [appState, dispatch] = useReducer(appReducer, {})
+  const [appState, dispatch] = useReducer(appReducer, { analyticsDatas: {} })
 
   return (
     <dispatchContext.Provider value={dispatch}>

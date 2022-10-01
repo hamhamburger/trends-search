@@ -15,15 +15,7 @@ ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
 export const options = {
   responsive: true,
-  plugins: {
-    legend: {
-      position: 'top' as const,
-    },
-    title: {
-      display: true,
-      text: 'Chart.js Bar Chart',
-    },
-  },
+  plugins: {},
 }
 const TweetsGraph = ({ tweetsCount }: { tweetsCount: TweetsCount }): JSX.Element => {
   if (!tweetsCount) return <></>

@@ -6,7 +6,7 @@ export type AppState = {
   analyticsDatas: { [key: string]: AnalyticsData }
 }
 
-type AnalyticsData = {
+export type AnalyticsData = {
   tweetsCount?: TweetsCount
 }
 
