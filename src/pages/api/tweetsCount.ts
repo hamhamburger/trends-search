@@ -9,7 +9,6 @@ const getTweetsCount = async (keyword: string, client: TwitterApi): Promise<Twee
   const res = await client.v2.tweetCountRecent(keyword)
 
   const data = res.data.map(object => {
-    console.log(object.start)
     const month = Number(object.start.substring(5, 7))
     const date = Number(object.start.substring(8, 10))
     const hour = Number(object.start.substring(11, 13))
@@ -22,8 +21,9 @@ const getTweetsCount = async (keyword: string, client: TwitterApi): Promise<Twee
 }
 
 type Data = {
-  tweets?: TweetsCount
-  message: string
+  data?: TweetsCount
+  status: string
+  message?: string
 }
 
 export default async function handler(
@@ -33,10 +33,11 @@ export default async function handler(
   const keyword = _req.query['keyword'] ? _req.query['keyword'].toString() : 'ビットコイン'
   const result = await getTweetsCount(keyword, appOnlyClient)
   if (result) {
-    res.status(200).json({ tweets: result, message: 'success' })
+    res.status(200).json({ data: result, status: 'success' })
   } else {
-    res.status(404).json({
-      message: 'Tweets not found',
+    res.status(200).json({
+      status: 'failed',
+      message: 'tweet not found',
     })
   }
 }

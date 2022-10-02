@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -9,7 +10,7 @@ import {
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
 
-import type { TweetsCount } from '@/libs/types'
+import type { StockData, TweetsCount } from '@/libs/types'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
 
@@ -17,16 +18,31 @@ export const options = {
   responsive: true,
   plugins: {},
 }
-const TweetsGraph = ({ tweetsCount }: { tweetsCount: TweetsCount }): JSX.Element => {
-  if (!tweetsCount) return <></>
+const TweetsAndStock = ({
+  tweetsCount,
+  stockData,
+}: {
+  tweetsCount: TweetsCount
+  stockData: StockData
+}): JSX.Element => {
+  const twitterLabels = tweetsCount?.data.map(obj => `${obj.date}日${obj.hour}時`)
+  const twitterValues = tweetsCount?.data.map(obj => obj.value)
 
-  const labels = tweetsCount?.data.map(obj => `${obj.date}日${obj.hour}時`)
-  const values = tweetsCount?.data.map(obj => obj.value)
+  const stockLabels = tweetsCount?.data.map(obj => `${obj.date}日${obj.hour}時`)
+  const stockValues = tweetsCount?.data.map(obj => obj.value)
   const data = {
-    labels,
     datasets: [
       {
-        data: values,
+        data: twitterValues,
+        label: tweetsCount.keyword,
+        backgroundColor: [],
+        // グラフの枠線の色
+        borderColor: [],
+        // グラフの枠線の太さ
+        borderWidth: 1,
+      },
+      {
+        data: counts,
         label: tweetsCount.keyword,
         backgroundColor: [],
         // グラフの枠線の色
@@ -52,4 +68,4 @@ const TweetsGraph = ({ tweetsCount }: { tweetsCount: TweetsCount }): JSX.Element
     </>
   )
 }
-export default TweetsGraph
+export default TweetsAndStock

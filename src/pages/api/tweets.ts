@@ -11,7 +11,7 @@ const getTweetsInfo = async (keyword: string, client: TwitterApi): Promise<any> 
 
 type Data = {
   tweets?: any[]
-  message: string
+  status: string
 }
 
 export default async function handler(
@@ -24,7 +24,7 @@ export default async function handler(
     res.status(200).json(result)
   } else {
     res.status(404).json({
-      message: 'Tweets not found',
+      status: 'Tweets not found',
     })
   }
 }

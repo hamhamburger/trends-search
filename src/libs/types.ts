@@ -1,34 +1,35 @@
-export type TrendKewordResult = {
+export interface BaseData {
+  keyword: string
+  data: Array<{ month: number; date: number; hour?: number; value: number }>
+}
+
+export interface TrendKewordResult {
   rank: number
 }
 
-export type AppState = {
+export interface AppState {
   analyticsDatas: { [key: string]: AnalyticsData }
 }
 
-export type AnalyticsData = {
+export interface AnalyticsData {
   googleInterest?: GoogleInterest
   tweetsCount?: TweetsCount
+  stockData?: StockData
 }
 
-export type TweetsCount = {
-  keyword: string
+export interface TweetsCount extends BaseData {
   total: number
-  data: Array<{ month: number; date: number; hour: number; value: number }>
 }
 
-export type GoogleInterest = {
-  keyword: string
+export interface GoogleInterest extends BaseData {
   data: Array<{ month: number; date: number; value: number }>
 }
 
-export type StockData = {
-  keyword: string
+export interface StockData extends BaseData {
   stockCode: string
-  data: Array<{ month: number; date: number; value: number }>
 }
 
-// export type Actions = {
-//   type: 'SET_TWITTER_COUNT'
+// export interface Actions = {
+//   interface: 'SET_TWITTER_COUNT'
 //   payload: { tweetsCount?: TweetsCount }
 // }

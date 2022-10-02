@@ -21,8 +21,8 @@ const TrendForm = (): JSX.Element => {
     const queryParams = new URLSearchParams({ keyword })
     const tweetsCountResult = await fetch('/api/tweetsCount' + '?' + queryParams)
     const tweetsCountParsed = await tweetsCountResult.json()
-    if (tweetsCountParsed.message === 'success') {
-      const tweets: TweetsCount = tweetsCountParsed.tweets
+    if (tweetsCountParsed.status === 'success') {
+      const tweets: TweetsCount = tweetsCountParsed.data
 
       dispatch({
         type: 'SET_TWITTER_COUNT',
@@ -35,7 +35,7 @@ const TrendForm = (): JSX.Element => {
     const queryParams = new URLSearchParams({ keyword })
     const trendResult = await fetch('/api/google-trend' + '?' + queryParams)
     const trendJson = await trendResult.json()
-    if (trendJson.message === 'success') {
+    if (trendJson.status === 'success') {
       dispatch({
         type: 'SET_GOOGLE_INTEREST',
         payload: { googleInterest: trendJson, keyword: trendJson.keyword },
@@ -43,12 +43,33 @@ const TrendForm = (): JSX.Element => {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   const fetchRecentQuotes = async (stockCode: string, keyword: string): Promise<void> => {
     const queryParams = new URLSearchParams({ stockCode })
     const res = await fetch('/api/jquants' + '?' + queryParams)
     const result = await res.json()
     console.log(keyword)
-    if (result.message === 'success') {
+    if (result.status === 'success') {
+      dispatch({
+        type: 'SET_STOCKDATA',
+        payload: {
+          stockData: {
+            data: result.data,
+            stockCode,
+            keyword,
+          },
+          keyword,
+        },
+      })
+    }
+  }
+
+  const fetchYahooFinance = async (stockCode: string, keyword: string): Promise<void> => {
+    const queryParams = new URLSearchParams({ stockCode })
+    const res = await fetch('/api/yahoo-finance' + '?' + queryParams)
+    const result = await res.json()
+    console.log(result)
+    if (result.status === 'success') {
       dispatch({
         type: 'SET_STOCKDATA',
         payload: {
@@ -74,7 +95,7 @@ const TrendForm = (): JSX.Element => {
       fetchGoogleInterest(data.keyword)
     }
     if (data.stockCode) {
-      fetchRecentQuotes(data.stockCode, data.keyword)
+      fetchYahooFinance(data.stockCode, data.keyword)
     }
     //
     // fetchTweetsCount(queryParams)

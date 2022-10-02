@@ -4,7 +4,7 @@ import Jquants from '@/libs/jquants'
 
 type Data = {
   result: any
-  message: string
+  status: string
 }
 
 const fetchRecentQuotes = async (stockCode: string, days: number): Promise<any> => {
@@ -31,5 +31,5 @@ export default async function handler(
 ): Promise<void> {
   const stockCode = _req.query['stockCode'] ? _req.query['stockCode'].toString() : 'ビットコイン'
   const result = await fetchRecentQuotes(stockCode, 7)
-  res.status(200).json({ message: 'success', ...result })
+  res.status(200).json({ status: 'success', ...result })
 }

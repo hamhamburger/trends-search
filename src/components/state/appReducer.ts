@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-import type { AppState, GoogleInterest, StockData, TweetsCount } from '@/libs/types'
+import type { AppState, BaseData, StockData, TweetsCount } from '@/libs/types'
 
 export type Actions =
   | {
@@ -9,7 +9,7 @@ export type Actions =
     }
   | {
       type: 'SET_GOOGLE_INTEREST'
-      payload: { googleInterest: GoogleInterest; keyword: string }
+      payload: { googleInterest: BaseData; keyword: string }
     }
   | {
       type: 'SET_STOCKDATA'

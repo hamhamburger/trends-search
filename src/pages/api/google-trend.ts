@@ -3,7 +3,7 @@ import googleTrends from 'google-trends-api'
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
-  message: string
+  status: string
 }
 
 const searchThisWeekInterestByRegion = async (keyword: string): Promise<any> => {
@@ -17,14 +17,16 @@ const searchThisWeekInterestByRegion = async (keyword: string): Promise<any> => 
   })
   const result = JSON.parse(response)
   console.log(result)
-  const data = result.default.timelineData.map(object => {
-    const dateTime = dayjs(object.formattedTime)
-    const date = dateTime.date()
-    const month = dateTime.month() + 1
-    const value = Number(object.value)
+  const data = result.default.timelineData.map(
+    (object: { formattedTime: string; value: string }) => {
+      const dateTime = dayjs(object.formattedTime)
+      const date = dateTime.date()
+      const month = dateTime.month() + 1
+      const value = Number(object.value)
 
-    return { date, month, value }
-  })
+      return { date, month, value }
+    },
+  )
 
   return { data, keyword }
 }
@@ -36,10 +38,10 @@ export default async function handler(
   const keyword = _req.query['keyword'] ? _req.query['keyword'].toString() : 'ビットコイン'
   const result = await searchThisWeekInterestByRegion(keyword)
   if (result) {
-    res.status(200).json({ ...result, message: 'success' })
+    res.status(200).json({ ...result, status: 'success' })
   } else {
     res.status(404).json({
-      message: 'Could not find',
+      status: 'Could not find',
     })
   }
 }

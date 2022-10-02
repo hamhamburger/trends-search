@@ -1,5 +1,6 @@
 import { Grid } from '@mui/material'
 
+import GenericBarGraph from './graph/GenericBarGraph'
 import GoogleInterestGraph from './graph/GoogleInterestGraph'
 import TweetsGraph from './graph/TweetsGraph'
 
@@ -26,6 +27,9 @@ const Analytics = (): JSX.Element => {
               ) : (
                 <></>
               )}
+            </Grid>
+            <Grid item xs={6}>
+              {data.stockData ? <GenericBarGraph barData={data.stockData} /> : <></>}
             </Grid>
           </Grid>
         )
