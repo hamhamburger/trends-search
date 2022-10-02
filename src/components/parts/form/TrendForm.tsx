@@ -7,6 +7,7 @@ import type { TweetsCount } from '@/libs/types'
 
 type FormInput = {
   keyword: string
+  stockCode?: string
   requestTweet: boolean
   requestGoogleInterest: boolean
 }
@@ -16,11 +17,10 @@ const TrendForm = (): JSX.Element => {
   const dispatch = useDispatch()
 
   // eslint-disable-next-line no-unused-vars
-  const fetchTweetsCount = async (queryParams: URLSearchParams): Promise<void> => {
+  const fetchTweetsCount = async (keyword: string): Promise<void> => {
+    const queryParams = new URLSearchParams({ keyword })
     const tweetsCountResult = await fetch('/api/tweetsCount' + '?' + queryParams)
-    console.log(tweetsCountResult)
     const tweetsCountParsed = await tweetsCountResult.json()
-    console.log(tweetsCountParsed)
     if (tweetsCountParsed.message === 'success') {
       const tweets: TweetsCount = tweetsCountParsed.tweets
 
@@ -31,7 +31,8 @@ const TrendForm = (): JSX.Element => {
     }
   }
 
-  const fetchGoogleInterest = async (queryParams: URLSearchParams): Promise<void> => {
+  const fetchGoogleInterest = async (keyword: string): Promise<void> => {
+    const queryParams = new URLSearchParams({ keyword })
     const trendResult = await fetch('/api/google-trend' + '?' + queryParams)
     const trendJson = await trendResult.json()
     if (trendJson.message === 'success') {
@@ -42,21 +43,38 @@ const TrendForm = (): JSX.Element => {
     }
   }
 
-  const onSubmit: SubmitHandler<FormInput> = async (data): Promise<void> => {
-    const queryParams = new URLSearchParams(data.keyword)
-    console.log(data)
-    // const trendResult = await fetch('/api/search' + '?' + queryParams)
-    // const trendJson = await trendResult.json()
-    // console.log(trendJson)
+  const fetchRecentQuotes = async (stockCode: string, keyword: string): Promise<void> => {
+    const queryParams = new URLSearchParams({ stockCode })
+    const res = await fetch('/api/jquants' + '?' + queryParams)
+    const result = await res.json()
+    console.log(keyword)
+    if (result.message === 'success') {
+      dispatch({
+        type: 'SET_STOCKDATA',
+        payload: {
+          stockData: {
+            data: result.data,
+            stockCode,
+            keyword,
+          },
+          keyword,
+        },
+      })
+    }
+  }
 
+  const onSubmit: SubmitHandler<FormInput> = async (data): Promise<void> => {
     // const tweetsInfoResult = await fetch('/api/tweets' + '?' + queryParams)
     // const tweetsInfoJson = await tweetsInfoResult.json()
     // console.log(tweetsInfoJson)
     if (data.requestTweet) {
-      fetchTweetsCount(queryParams)
+      fetchTweetsCount(data.keyword)
     }
     if (data.requestGoogleInterest) {
-      fetchGoogleInterest(queryParams)
+      fetchGoogleInterest(data.keyword)
+    }
+    if (data.stockCode) {
+      fetchRecentQuotes(data.stockCode, data.keyword)
     }
     //
     // fetchTweetsCount(queryParams)
@@ -68,6 +86,7 @@ const TrendForm = (): JSX.Element => {
         <form>
           <Stack>
             <TextField label='キーワード' {...register('keyword')} />
+            <TextField label='証券コード' {...register('stockCode')} />
             <Box sx={{ display: 'flex' }}>
               <FormControlLabel
                 control={<Checkbox defaultChecked {...register('requestTweet')} />}

@@ -1,6 +1,6 @@
 /* eslint-disable indent */
 
-import type { AppState, GoogleInterest, TweetsCount } from '@/libs/types'
+import type { AppState, GoogleInterest, StockData, TweetsCount } from '@/libs/types'
 
 export type Actions =
   | {
@@ -10,6 +10,10 @@ export type Actions =
   | {
       type: 'SET_GOOGLE_INTEREST'
       payload: { googleInterest: GoogleInterest; keyword: string }
+    }
+  | {
+      type: 'SET_STOCKDATA'
+      payload: { stockData: StockData; keyword: string }
     }
 
 export const appReducer = (state: AppState, action: Actions): AppState => {
@@ -29,6 +33,17 @@ export const appReducer = (state: AppState, action: Actions): AppState => {
       const analyticsData = {
         ...state?.analyticsDatas?.[action.payload.keyword],
         googleInterest: action.payload.googleInterest,
+      }
+
+      return {
+        ...state,
+        analyticsDatas: { ...state.analyticsDatas, [action.payload.keyword]: analyticsData },
+      }
+    }
+    case 'SET_STOCKDATA': {
+      const analyticsData = {
+        ...state?.analyticsDatas?.[action.payload.keyword],
+        stockData: action.payload.stockData,
       }
 
       return {

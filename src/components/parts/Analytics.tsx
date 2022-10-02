@@ -7,8 +7,6 @@ import { useAppState } from '@/components/state/useAppState'
 const Analytics = (): JSX.Element => {
   const { analyticsDatas } = useAppState()
   if (Object.keys(analyticsDatas).length < 1) return <></>
-  console.log(Object.keys(analyticsDatas))
-  console.log(analyticsDatas)
 
   return (
     <div>

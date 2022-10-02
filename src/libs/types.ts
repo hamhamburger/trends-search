@@ -22,6 +22,12 @@ export type GoogleInterest = {
   data: Array<{ month: number; date: number; value: number }>
 }
 
+export type StockData = {
+  keyword: string
+  stockCode: string
+  data: Array<{ month: number; date: number; value: number }>
+}
+
 // export type Actions = {
 //   type: 'SET_TWITTER_COUNT'
 //   payload: { tweetsCount?: TweetsCount }
