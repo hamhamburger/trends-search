@@ -13,9 +13,9 @@ const getTweetsCount = async (keyword: string, client: TwitterApi): Promise<Twee
     const month = Number(object.start.substring(5, 7))
     const date = Number(object.start.substring(8, 10))
     const hour = Number(object.start.substring(11, 13))
-    const count = object.tweet_count
+    const value = object.tweet_count
 
-    return { month, date, hour, count }
+    return { month, date, hour, value }
   })
 
   return { data, total: res.meta.total_tweet_count, keyword }

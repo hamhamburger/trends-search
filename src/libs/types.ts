@@ -14,7 +14,7 @@ export type AnalyticsData = {
 export type TweetsCount = {
   keyword: string
   total: number
-  data: Array<{ month: number; date: number; hour: number; count: number }>
+  data: Array<{ month: number; date: number; hour: number; value: number }>
 }
 
 export type GoogleInterest = {

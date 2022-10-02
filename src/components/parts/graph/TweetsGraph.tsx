@@ -21,7 +21,7 @@ const TweetsGraph = ({ tweetsCount }: { tweetsCount: TweetsCount }): JSX.Element
   if (!tweetsCount) return <></>
 
   const labels = tweetsCount?.data.map(obj => `${obj.date}日${obj.hour}時`)
-  const counts = tweetsCount?.data.map(obj => obj.count)
+  const counts = tweetsCount?.data.map(obj => obj.value)
   const data = {
     labels,
     datasets: [
@@ -38,7 +38,7 @@ const TweetsGraph = ({ tweetsCount }: { tweetsCount: TweetsCount }): JSX.Element
   }
 
   const average = Math.ceil(
-    tweetsCount?.data.reduce((accumulator, obj) => accumulator + obj.count, 0) /
+    tweetsCount?.data.reduce((accumulator, obj) => accumulator + obj.value, 0) /
       tweetsCount.data.length,
   )
 
