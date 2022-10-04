@@ -38,7 +38,7 @@ const fetchRecentQuotes = async (stockCode = '7974', days = 7): Promise<YahooFin
   return {
     data: result,
     code: stockCode,
-    titleLabel: `${result.meta.symbol}の株価`,
+    titleLabel: `${response.meta.symbol}の株価`,
     status: 'success',
   }
 }
@@ -49,5 +49,7 @@ export default async function handler(
 ): Promise<void> {
   const stockCode = _req.query['stockCode'] ? _req.query['stockCode'].toString() : 'ビットコイン'
   const result = await fetchRecentQuotes(stockCode, 7)
+  console.log(result)
+
   res.status(200).json(result)
 }

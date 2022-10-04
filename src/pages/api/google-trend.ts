@@ -19,7 +19,7 @@ const searchThisWeekInterestByRegion = async (keyword: string): Promise<any> => 
   console.log(result)
   const data = result.default.timelineData.map(
     (object: { formattedTime: string; value: string }) => {
-      const dateTime = dayjs(object.formattedTime)
+      const dateTime = dayjs(object.formattedTime).toDate()
 
       const value = Number(object.value)
 

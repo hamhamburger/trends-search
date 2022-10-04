@@ -13,11 +13,11 @@
       "name": "Next.js クライアントサイド用のデバッガ設定",
       "type": "chrome",
       "request": "launch",
-      "url": "http://localhost:8888",
-      "webRoot": "${workspaceFolder}/app_nextjs",
+      "url": "http://localhost:3000",
       "sourceMaps": true,
+      "webRoot": "${workspaceFolder}",
       "sourceMapPathOverrides": {
-        "webpack://_N_E/*": "${webRoot}/*"
+        "webpack://_N_E/*": "${workspaceFolder}/*"
       }
     }
   ]

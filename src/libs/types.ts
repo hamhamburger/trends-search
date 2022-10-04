@@ -45,3 +45,10 @@ export interface StockData extends BaseData {
 //   interface: 'SET_TWITTER_COUNT'
 //   payload: { tweetsCount?: TweetsCount }
 // }
+
+export interface BarData {
+  labels: string[]
+  values: number[]
+  keyword: string
+  titleLabel: string
+}
