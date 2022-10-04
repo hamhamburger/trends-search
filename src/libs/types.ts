@@ -1,6 +1,22 @@
+export interface ResultData {
+  status: string
+  message?: string
+  keyword?: string
+  titleLabel?: string //
+  data?: Array<{ value: number; dateTime: Date }>
+}
+
+export interface YahooFinanceResult extends ResultData {
+  code?: string
+}
+
+export interface TweetsCountResult extends ResultData {
+  total?: number
+}
 export interface BaseData {
-  keyword: string
-  data: Array<{ month: number; date: number; hour?: number; value: number }>
+  keyword: string // データを管理するキー
+  titleLabel: string
+  data: Array<{ value: number; dateTime: Date }>
 }
 
 export interface TrendKewordResult {
@@ -12,17 +28,13 @@ export interface AppState {
 }
 
 export interface AnalyticsData {
-  googleInterest?: GoogleInterest
+  googleInterest?: BaseData
   tweetsCount?: TweetsCount
   stockData?: StockData
 }
 
 export interface TweetsCount extends BaseData {
   total: number
-}
-
-export interface GoogleInterest extends BaseData {
-  data: Array<{ month: number; date: number; value: number }>
 }
 
 export interface StockData extends BaseData {

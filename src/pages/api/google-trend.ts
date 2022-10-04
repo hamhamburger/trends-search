@@ -20,15 +20,14 @@ const searchThisWeekInterestByRegion = async (keyword: string): Promise<any> => 
   const data = result.default.timelineData.map(
     (object: { formattedTime: string; value: string }) => {
       const dateTime = dayjs(object.formattedTime)
-      const date = dateTime.date()
-      const month = dateTime.month() + 1
+
       const value = Number(object.value)
 
-      return { date, month, value }
+      return { value, dateTime }
     },
   )
 
-  return { data, keyword }
+  return { data, keyword, titleLabel: `${keyword}のGoogleトレンドチャート` }
 }
 
 export default async function handler(

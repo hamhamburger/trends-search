@@ -9,6 +9,7 @@ import {
 } from 'chart.js'
 import { Bar } from 'react-chartjs-2'
 
+import generateBarData from '@/libs/generateBarData'
 import type { TweetsCount } from '@/libs/types'
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend)
@@ -18,16 +19,13 @@ export const options = {
   plugins: {},
 }
 const TweetsGraph = ({ tweetsCount }: { tweetsCount: TweetsCount }): JSX.Element => {
-  if (!tweetsCount) return <></>
-
-  const labels = tweetsCount?.data.map(obj => `${obj.date}日${obj.hour}時`)
-  const values = tweetsCount?.data.map(obj => obj.value)
+  const { labels, values, titleLabel } = generateBarData(tweetsCount)
   const data = {
     labels,
     datasets: [
       {
         data: values,
-        label: tweetsCount.keyword,
+        label: titleLabel,
         backgroundColor: [],
         // グラフの枠線の色
         borderColor: [],

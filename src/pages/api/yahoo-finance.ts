@@ -2,13 +2,15 @@ import dayjs from 'dayjs'
 import type { NextApiRequest, NextApiResponse } from 'next'
 import yahooFinance from 'yahoo-finance2'
 
+import type { YahooFinanceResult } from '@/libs/types'
+
 type Data = {
   status: string
   data?: any
   message?: string
 }
 
-const fetchRecentQuotes = async (stockCode = '7974', days = 7): Promise<any> => {
+const fetchRecentQuotes = async (stockCode = '7974', days = 7): Promise<YahooFinanceResult> => {
   const date = dayjs()
   const queryOptions = {
     period1: date.subtract(7, 'days').toDate(),
@@ -17,25 +19,28 @@ const fetchRecentQuotes = async (stockCode = '7974', days = 7): Promise<any> => 
     return: 'array' as 'object',
     // 上のキャストはエラーが出るため
   }
-  let result
+  let response
   try {
-    result = await yahooFinance._chart(`${stockCode}.T`, queryOptions)
-  } catch (e) {
+    response = await yahooFinance._chart(`${stockCode}.T`, queryOptions)
+  } catch (e: any) {
     return { status: 'failed', message: e.message }
   }
 
-  const response = result['quotes'].map((obj: { close: number; date: string }) => {
+  const result = response['quotes'].map((obj: { close: number; date: string }) => {
     const date = dayjs(obj.date)
 
     return {
       value: obj.close,
-      month: date.month() + 1,
-      date: date.date(),
-      hour: date.hour(),
+      dateTime: date.toDate(),
     }
   })
 
-  return { data: response, code: stockCode, status: 'success' }
+  return {
+    data: result,
+    code: stockCode,
+    titleLabel: `${result.meta.symbol}の株価`,
+    status: 'success',
+  }
 }
 
 export default async function handler(

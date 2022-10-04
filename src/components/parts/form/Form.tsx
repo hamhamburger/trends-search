@@ -3,7 +3,6 @@ import type { SubmitHandler } from 'react-hook-form'
 import { useForm } from 'react-hook-form'
 
 import { useDispatch } from '@/components/state/useDispatch'
-import type { TweetsCount } from '@/libs/types'
 
 type FormInput = {
   keyword: string
@@ -12,33 +11,32 @@ type FormInput = {
   requestGoogleInterest: boolean
 }
 
-const TrendForm = (): JSX.Element => {
+const Form = (): JSX.Element => {
   const { register, handleSubmit } = useForm<FormInput>()
   const dispatch = useDispatch()
 
+  // この辺も共通化していけそう
   // eslint-disable-next-line no-unused-vars
   const fetchTweetsCount = async (keyword: string): Promise<void> => {
     const queryParams = new URLSearchParams({ keyword })
-    const tweetsCountResult = await fetch('/api/tweetsCount' + '?' + queryParams)
-    const tweetsCountParsed = await tweetsCountResult.json()
-    if (tweetsCountParsed.status === 'success') {
-      const tweets: TweetsCount = tweetsCountParsed.data
-
+    const response = await fetch('/api/tweetsCount' + '?' + queryParams)
+    const result = await response.json()
+    if (result.status === 'success') {
       dispatch({
         type: 'SET_TWITTER_COUNT',
-        payload: { tweetsCount: tweets, keyword: tweets.keyword },
+        payload: { tweetsCount: result, keyword: result.keyword },
       })
     }
   }
 
   const fetchGoogleInterest = async (keyword: string): Promise<void> => {
     const queryParams = new URLSearchParams({ keyword })
-    const trendResult = await fetch('/api/google-trend' + '?' + queryParams)
-    const trendJson = await trendResult.json()
-    if (trendJson.status === 'success') {
+    const res = await fetch('/api/google-trend' + '?' + queryParams)
+    const result = await res.json()
+    if (result.status === 'success') {
       dispatch({
         type: 'SET_GOOGLE_INTEREST',
-        payload: { googleInterest: trendJson, keyword: trendJson.keyword },
+        payload: { googleInterest: result, keyword: result.keyword },
       })
     }
   }
@@ -46,17 +44,15 @@ const TrendForm = (): JSX.Element => {
   // eslint-disable-next-line no-unused-vars
   const fetchRecentQuotes = async (stockCode: string, keyword: string): Promise<void> => {
     const queryParams = new URLSearchParams({ stockCode })
-    const res = await fetch('/api/jquants' + '?' + queryParams)
-    const result = await res.json()
+    const response = await fetch('/api/jquants' + '?' + queryParams)
+    const result = await response.json()
     console.log(keyword)
     if (result.status === 'success') {
       dispatch({
         type: 'SET_STOCKDATA',
         payload: {
           stockData: {
-            data: result.data,
-            stockCode,
-            keyword,
+            ...result,
           },
           keyword,
         },
@@ -66,15 +62,15 @@ const TrendForm = (): JSX.Element => {
 
   const fetchYahooFinance = async (stockCode: string, keyword: string): Promise<void> => {
     const queryParams = new URLSearchParams({ stockCode })
-    const res = await fetch('/api/yahoo-finance' + '?' + queryParams)
-    const result = await res.json()
-    console.log(result)
+    const response = await fetch('/api/yahoo-finance' + '?' + queryParams)
+    const result = await response.json()
     if (result.status === 'success') {
       dispatch({
         type: 'SET_STOCKDATA',
         payload: {
           stockData: {
             data: result.data,
+            titleLabel: result.titleLabel,
             stockCode,
             keyword,
           },
@@ -125,4 +121,4 @@ const TrendForm = (): JSX.Element => {
     </div>
   )
 }
-export default TrendForm
+export default Form
