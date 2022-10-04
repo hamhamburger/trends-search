@@ -28,9 +28,9 @@ const Analytics = (): JSX.Element => {
             <Grid item xs={6}>
               {data.stockData ? <BarGraph barData={data.stockData} /> : <></>}
             </Grid>
-            <Grid item xs={6}>
+            <Grid item xs={12}>
               {data.stockData && data.tweetsCount ? (
-                <DoubleChart barDatas={[data.stockData, data.tweetsCount as BaseData]} />
+                <DoubleChart data1={data.stockData} data2={data.tweetsCount as BaseData} />
               ) : (
                 <></>
               )}
