@@ -11,7 +11,7 @@ import {
   LineController,
   BarController,
 } from 'chart.js'
-import { Chart } from 'react-chartjs-2'
+import { Line } from 'react-chartjs-2'
 
 import generateBarDataFromTwo from '@/libs/generateBarDataFromTwo'
 import type { BaseData } from '@/libs/types'
@@ -28,6 +28,36 @@ ChartJS.register(
   BarController,
 )
 
+export const options = {
+  responsive: true,
+  interaction: {
+    mode: 'index' as const,
+    intersect: false,
+  },
+  stacked: false,
+  plugins: {
+    title: {
+      display: true,
+      text: '株価とツイート数',
+    },
+  },
+  scales: {
+    y: {
+      type: 'linear' as const,
+      display: true,
+      position: 'left' as const,
+    },
+    y1: {
+      type: 'linear' as const,
+      display: true,
+      position: 'right' as const,
+      grid: {
+        drawOnChartArea: false,
+      },
+    },
+  },
+}
+
 const DoubleChart = ({ data1, data2 }: { data1: BaseData; data2: BaseData }): JSX.Element => {
   const { labels, values1, values2 } = generateBarDataFromTwo(data1, data2)
 
@@ -40,7 +70,8 @@ const DoubleChart = ({ data1, data2 }: { data1: BaseData; data2: BaseData }): JS
         label: data1.titleLabel,
         borderColor: 'rgb(255, 99, 132)',
         borderWidth: 2,
-        fill: false,
+
+        yAxisID: 'y',
       },
       {
         type: 'bar' as const,
@@ -51,6 +82,7 @@ const DoubleChart = ({ data1, data2 }: { data1: BaseData; data2: BaseData }): JS
         borderColor: [],
         // グラフの枠線の太さ
         borderWidth: 1,
+        yAxisID: 'y1',
       },
     ],
   }
@@ -62,7 +94,7 @@ const DoubleChart = ({ data1, data2 }: { data1: BaseData; data2: BaseData }): JS
 
   return (
     <>
-      <Chart data={data} type='bar' />
+      <Line data={data} options={options} />
     </>
   )
 }

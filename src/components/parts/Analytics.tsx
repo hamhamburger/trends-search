@@ -1,4 +1,4 @@
-import { Grid } from '@mui/material'
+import { Card, Grid, Typography } from '@mui/material'
 
 import BarGraph from './graph/BarGraph'
 import DoubleChart from './graph/DoubleChart'
@@ -17,25 +17,27 @@ const Analytics = (): JSX.Element => {
         if (data === undefined) return <></>
 
         return (
-          <Grid container key={keyword}>
-            <Grid item xs={6}>
-              {data.tweetsCount ? <TweetsGraph tweetsCount={data.tweetsCount} /> : <></>}
+          <Card key={keyword} sx={{ border: '1px solid' }}>
+            <Typography>{keyword}</Typography>
+            <Grid container>
+              <Grid item xs={6}>
+                {data.tweetsCount ? <TweetsGraph tweetsCount={data.tweetsCount} /> : <></>}
+              </Grid>
+              <Grid item xs={6}>
+                {data.googleInterest ? <BarGraph barData={data.googleInterest} /> : <></>}
+              </Grid>
+              <Grid item xs={6}>
+                {data.stockData ? <BarGraph barData={data.stockData} /> : <></>}
+              </Grid>
+              <Grid item xs={12}>
+                {data.stockData && data.tweetsCount ? (
+                  <DoubleChart data1={data.stockData} data2={data.tweetsCount as BaseData} />
+                ) : (
+                  <></>
+                )}
+              </Grid>
             </Grid>
-
-            <Grid item xs={6}>
-              {data.googleInterest ? <BarGraph barData={data.googleInterest} /> : <></>}
-            </Grid>
-            <Grid item xs={6}>
-              {data.stockData ? <BarGraph barData={data.stockData} /> : <></>}
-            </Grid>
-            <Grid item xs={12}>
-              {data.stockData && data.tweetsCount ? (
-                <DoubleChart data1={data.stockData} data2={data.tweetsCount as BaseData} />
-              ) : (
-                <></>
-              )}
-            </Grid>
-          </Grid>
+          </Card>
         )
       })}
     </div>
