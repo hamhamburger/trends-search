@@ -1,0 +1,24 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    
+    {
+      "name": "Next.js サーバサイド用のデバッガ設定",
+      "type": "node",
+      "request": "attach",
+      "skipFiles": ["<node_internals>/**"],
+      "port": 9229
+    },
+    {
+      "name": "Next.js クライアントサイド用のデバッガ設定",
+      "type": "chrome",
+      "request": "launch",
+      "url": "http://localhost:8888",
+      "webRoot": "${workspaceFolder}/app_nextjs",
+      "sourceMaps": true,
+      "sourceMapPathOverrides": {
+        "webpack://_N_E/*": "${webRoot}/*"
+      }
+    }
+  ]
+}
