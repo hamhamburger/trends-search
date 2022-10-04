@@ -6,13 +6,18 @@ import { useDispatch } from '@/components/state/useDispatch'
 
 type FormInput = {
   keyword: string
+  test: string
   stockCode?: string
   requestTweet: boolean
   requestGoogleInterest: boolean
 }
 
 const Form = (): JSX.Element => {
-  const { register, handleSubmit } = useForm<FormInput>()
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormInput>()
   const dispatch = useDispatch()
 
   // この辺も共通化していけそう
@@ -81,9 +86,7 @@ const Form = (): JSX.Element => {
   }
 
   const onSubmit: SubmitHandler<FormInput> = async (data): Promise<void> => {
-    // const tweetsInfoResult = await fetch('/api/tweets' + '?' + queryParams)
-    // const tweetsInfoJson = await tweetsInfoResult.json()
-    // console.log(tweetsInfoJson)
+    console.log(errors)
     if (data.requestTweet) {
       fetchTweetsCount(data.keyword)
     }
@@ -101,8 +104,12 @@ const Form = (): JSX.Element => {
     <div>
       <Container sx={{ padding: '10px' }}>
         <form>
-          <Stack>
-            <TextField label='キーワード' {...register('keyword')} />
+          <Stack gap={3}>
+            <TextField
+              label='キーワード'
+              {...register('keyword', { required: 'キーワードを入力してください' })}
+              helperText={errors.keyword?.message}
+            />
             <TextField label='証券コード' {...register('stockCode')} />
             <Box sx={{ display: 'flex' }}>
               <FormControlLabel
@@ -115,6 +122,7 @@ const Form = (): JSX.Element => {
               />
             </Box>
             <Button onClick={handleSubmit(onSubmit)}>検索</Button>
+            {errors.keyword && <span>キーワードを入力してください</span>}
           </Stack>
         </form>
       </Container>
