@@ -13,7 +13,7 @@ import {
 } from 'chart.js'
 import { Chart } from 'react-chartjs-2'
 
-import generateBarData from '@/libs/generateBarData'
+import generateBarDataFromTwo from '@/libs/generateBarDataFromTwo'
 import type { BaseData } from '@/libs/types'
 
 ChartJS.register(
@@ -28,26 +28,24 @@ ChartJS.register(
   BarController,
 )
 
-const DoubleChart = ({ barDatas }: { barDatas: BaseData[] }): JSX.Element => {
-  console.log(barDatas)
-  console.log('rendered')
+const DoubleChart = ({ data1, data2 }: { data1: BaseData; data2: BaseData }): JSX.Element => {
+  const { labels, values1, values2 } = generateBarDataFromTwo(data1, data2)
 
-  const datasets = barDatas.map(data => generateBarData(data))
   const data = {
-    labels: datasets[0].labels,
+    labels: labels,
     datasets: [
       {
         type: 'line' as const,
-        data: datasets[0].values,
-        label: datasets[0].titleLabel,
+        data: values1,
+        label: data1.titleLabel,
         borderColor: 'rgb(255, 99, 132)',
         borderWidth: 2,
         fill: false,
       },
       {
         type: 'bar' as const,
-        data: datasets[1]?.values,
-        label: datasets[1]?.titleLabel,
+        data: values2,
+        label: data2.titleLabel,
         backgroundColor: [],
         // グラフの枠線の色
         borderColor: [],
